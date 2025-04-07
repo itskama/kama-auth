@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {auth} from './firebase.ts';
 
-const BASE_URL = 'https://blog-emir-compass-default-rtdb.europe-west1.firebasedatabase.app/';
+const BASE_URL = 'https://kama-zus-default-rtdb.europe-west1.firebasedatabase.app/';
 
 export const axiosApi = axios.create({
   baseURL: BASE_URL,

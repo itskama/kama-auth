@@ -1,5 +1,6 @@
 import {initializeApp} from 'firebase/app';
-import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut} from 'firebase/auth'; // TODO: Add SDKs for Firebase products that you want to use
+import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut} from 'firebase/auth'; 
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -9,9 +10,11 @@ const firebaseConfig = {
   messagingSenderId: import.meta.env.VITE_SENDER_ID,
   appId: import.meta.env.VITE_APP_ID,
 };
+
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
+export const db = getFirestore(app)
 export async function emailSignIn(email: string, password: string) {
   return await signInWithEmailAndPassword(auth, email, password);
 }

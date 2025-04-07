@@ -14,6 +14,7 @@ export const CreatePost = () => {
     await axiosApi.post('/posts.json', {
       content,
       userId: user.id,
+      email:user.email,
       createdAt: new Date().toISOString(),
     });
     setContent('');

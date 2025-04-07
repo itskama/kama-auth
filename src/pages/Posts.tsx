@@ -2,15 +2,10 @@ import { useEffect, useState } from 'react';
 import { Box, List, ListItem, Typography, Select, MenuItem } from '@mui/material';
 import { useAuthStore } from '../store/useAuthStore';
 import { axiosApi } from '../axiosApi';
+import {IPost} from '../types'
 
-interface Post {
-  id: string;
-  content: string;
-  userId: string;
-  createdAt: string;
-}
 export const Posts = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<IPost[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<string>('');
   const { user } = useAuthStore();
 
