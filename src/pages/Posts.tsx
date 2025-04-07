@@ -9,8 +9,7 @@ interface Post {
   userId: string;
   createdAt: string;
 }
-// pf2FkxBC5wcsyNo2IsnEeuD4y5N2
-export const PostsPage = () => {
+export const Posts = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<string>('');
   const { user } = useAuthStore();
