@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Box, List, ListItem, Typography, Select, MenuItem } from '@mui/material';
 import { useAuthStore } from '../store/useAuthStore';
-import { axiosApi } from '../axiosApi';
-import {IPost} from '../types'
+import { getPosts } from '../api/posts/requests';
+import { IPost } from '../types';
 
 export const Posts = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -12,32 +12,16 @@ export const Posts = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const params: { orderBy?: string; equalTo?: string } = {};
-
-        if (selectedUserId) {
-          params.orderBy = '"userId"';
-          params.equalTo = `"${selectedUserId}"`;
-        }
-
-        const response = await axiosApi.get('/posts.json', {
-          params: selectedUserId ? params : {}
-        });
-
-        const data = response.data || {};
-        const postsArray = Object.keys(data).map((key) => ({
-          id: key,
-          ...data[key],
-        }));
-
-        setPosts(postsArray);
+        const postsData = await getPosts(selectedUserId || undefined);
+        setPosts(postsData);
       } catch (error) {
-        console.error('Error fetching posts:', error);
+        console.error("Error fetching posts:", error);
         setPosts([]);
       }
     };
 
     fetchPosts();
-  }, [selectedUserId, user]);
+  }, [selectedUserId]);
 
   return (
     <Box sx={{ mt: 4 }}>

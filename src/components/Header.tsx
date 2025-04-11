@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -13,15 +14,15 @@ import { userSignOut } from '../firebase.ts';
 export default function Header() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { user, clearUser } = useAuthStore();
+  const { user, profile, clearUser } = useAuthStore(); 
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = (route: string) => {
+  const handleClose = (route?: string) => {
     setAnchorEl(null);
-    navigate(route);
+    if (route) navigate(route);
   };
 
   const logOut = async () => {
@@ -36,7 +37,6 @@ export default function Header() {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Auth app
         </Typography>
-
         {user && (
           <div>
             <IconButton
@@ -49,23 +49,23 @@ export default function Header() {
             <Menu
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
-              onClose={() => setAnchorEl(null)}
+              onClose={() => handleClose()}
             >
+              {!profile && (
+                <MenuItem onClick={() => handleClose('/create-profile')}>
+                  Create profile
+                </MenuItem>
+              )}
               <MenuItem onClick={() => handleClose('/')}>Home</MenuItem>
               <MenuItem onClick={() => handleClose('/add-post')}>Add post</MenuItem>
               <MenuItem onClick={logOut}>Log out</MenuItem>
             </Menu>
           </div>
         )}
-
         {!user && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-            <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>
-              Login
-            </Link>
-            <Link to="/register" style={{ color: 'white', textDecoration: 'none' }}>
-              Register
-            </Link>
+            <Link to={'/login'} style={{ color: 'white', textDecoration: 'none' }}>Login</Link>
+            <Link to={'/register'} style={{ color: 'white', textDecoration: 'none' }}>Register</Link>
           </div>
         )}
       </Toolbar>
